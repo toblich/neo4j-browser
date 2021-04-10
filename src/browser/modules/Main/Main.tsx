@@ -46,9 +46,9 @@ const Main = React.memo(function Main(props: any) {
 
   return (
     <StyledMain data-testid="main">
-      <ErrorBoundary>
+      {/* <ErrorBoundary>
         <Editor />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
       <Render if={dbIsUnavailable}>
         <ErrorBanner>
           Database '{useDb}' is unavailable. Run{' '}

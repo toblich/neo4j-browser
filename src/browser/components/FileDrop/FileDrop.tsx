@@ -226,6 +226,7 @@ const mapDispatchToProps = (dispatch: any) => {
       )
     },
     importGrass: (file: any) => {
+      console.log('importing grass as if it were dropped')
       const parsedGrass = parseGrass(file)
       if (parsedGrass) {
         dispatch(updateGraphStyleData(parsedGrass))

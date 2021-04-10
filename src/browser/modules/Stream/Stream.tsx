@@ -60,7 +60,7 @@ const trans = {
   'user-add': UserAdd,
   'change-password': ChangePasswordFrame,
   pre: PreFrame,
-  play: PlayFrame,
+  play: () => null,
   'play-remote': PlayFrame,
   history: HistoryFrame,
   param: ParamsFrame,

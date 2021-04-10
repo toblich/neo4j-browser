@@ -213,7 +213,7 @@ export function EditorFrame({
 
   function createRunCommandFunction(source: string) {
     return () => {
-      executeCommand(editorRef.current?.getValue() || '', source)
+      executeCommand(editorRef.current?.getValue() || '', source) // TODO hard-code here query to run
       editorRef.current?.setValue('')
       setCurrentlyEditing(null)
       setFullscreen(false)

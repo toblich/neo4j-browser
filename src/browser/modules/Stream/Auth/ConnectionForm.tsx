@@ -35,7 +35,10 @@ import {
   getInitCmd,
   getPlayImplicitInitCommands
 } from 'shared/modules/settings/settingsDuck'
-import { executeSystemCommand } from 'shared/modules/commands/commandsDuck'
+import {
+  executeSystemCommand,
+  executeCommand
+} from 'shared/modules/commands/commandsDuck'
 import { shouldRetainConnectionCredentials } from 'shared/modules/dbMeta/dbMetaDuck'
 import { FORCE_CHANGE_PASSWORD } from 'shared/modules/cypher/cypherDuck'
 import { NATIVE, NO_AUTH } from 'services/bolt/boltHelpers'
@@ -91,8 +94,14 @@ export class ConnectionForm extends Component<any, ConnectionFormState> {
       passwordChangeNeeded: props.passwordChangeNeeded || false,
       forcePasswordChange: props.forcePasswordChange || false,
       successCallback: props.onSuccess || (() => {}),
-      used: props.isConnected
+      used: props.isConnected,
+      username: 'neo4j',
+      password: 'bitnami'
     }
+
+    this.connect(() => {
+      this.props.executeCommand('MATCH (X) return X', 'EDITOR')
+    })
   }
 
   tryConnect = (password: any, doneFn: any) => {
@@ -381,7 +390,10 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(updateConnection(connection))
     },
     setActiveConnection: (id: any) => dispatch(setActiveConnection(id)),
-    dispatchInitCmd: (initCmd: any) => dispatch(executeSystemCommand(initCmd))
+    dispatchInitCmd: (initCmd: any) => dispatch(executeSystemCommand(initCmd)),
+    executeCommand: (cmd: string, source: string) => {
+      dispatch(executeCommand(cmd, { source }))
+    }
   }
 }
 

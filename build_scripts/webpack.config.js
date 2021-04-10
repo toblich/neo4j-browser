@@ -47,6 +47,7 @@ module.exports = {
       shared: path.resolve(helpers.sourcePath, 'shared'),
       'browser-components': path.resolve(helpers.browserPath, 'components'),
       'browser-hooks': path.resolve(helpers.browserPath, 'hooks'),
+      'browser-modules': path.resolve(helpers.browserPath, 'modules'),
       browser: path.resolve(helpers.browserPath),
       'browser-styles': path.resolve(helpers.browserPath, 'styles'),
       icons: path.resolve(helpers.browserPath, 'icons')

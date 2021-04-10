@@ -23,18 +23,20 @@ import {
   selectorArrayToString
 } from 'services/grassUtils'
 
+import { executeSystemCommand } from '../../../shared/modules/commands/commandsDuck'
+
 export default function neoGraphStyle() {
   const defaultStyle = {
     node: {
       diameter: '50px',
-      color: '#A5ABB6',
-      'border-color': '#9AA1AC',
+      color: 'pink',
+      'border-color': 'pink',
       'border-width': '2px',
       'text-color-internal': '#FFFFFF',
       'font-size': '10px'
     },
     relationship: {
-      color: '#A5ABB6',
+      color: 'pink',
       'shaft-width': '1px',
       'font-size': '8px',
       padding: '3px',
@@ -243,6 +245,7 @@ export default function neoGraphStyle() {
       try {
         this.loadRules()
       } catch (_error) {
+        console.log('Initializing grpahStyle', _error)
         // e = _error
       }
     }
@@ -397,10 +400,12 @@ export default function neoGraphStyle() {
     }
 
     GraphStyle.prototype.importGrass = function(string: any) {
+      console.log('Importing GRASS!!!', string)
       try {
         const rules = this.parse(string)
         return this.loadRules(rules)
       } catch (_error) {
+        console.log('Importing grass', _error)
         // e = _error
       }
     }
@@ -495,7 +500,7 @@ export default function neoGraphStyle() {
 
     GraphStyle.prototype.loadRules = function(data: any) {
       const localData = typeof data === 'object' ? data : defaultStyle
-      this.rules.length = 0
+      this.rules.splice(0, this.rules.length)
       for (const key in localData) {
         const props = localData[key]
         // @ts-expect-error ts-migrate(7009) FIXME: 'new' expression, whose target lacks a construct s... Remove this comment to see the full error message
@@ -562,5 +567,72 @@ export default function neoGraphStyle() {
     return GraphStyle
   })()
   // @ts-expect-error ts-migrate(7009) FIXME: 'new' expression, whose target lacks a construct s... Remove this comment to see the full error message
-  return new GraphStyle()
+  const g = new GraphStyle()
+  g.resetToDefault()
+  return g.importGrass(
+    `
+node.* {
+    diameter: 50px;
+    color: #000000;
+    border-color: #000000;
+    border-width: 2px;
+    text-color-internal: #000000;
+    font-size: 10px;
+    defaultCaption: "<id>";
+    caption: "{id}";
+  }
+node {
+    diameter: 50px;
+    color: #000000;
+    border-color: #000000;
+    border-width: 2px;
+    text-color-internal: #000000;
+    font-size: 10px;
+  }
+  node.Component {
+    color: #000000;
+    border-color: #000000;
+    text-color-internal: #000000;
+  }
+  node.VIRTUAL_NODE {
+    color: #93a1a1;
+    border-color: #93a1a1;
+    text-color-internal: #000000;
+  }
+  node.INITIALIZING {
+    color: #268bd2;
+    border-color: #268bd2;
+    text-color-internal: #FFFFFF;
+  }
+  node.NORMAL {
+    color: #859900;
+    border-color: #859900;
+    text-color-internal: #FFFFFF;
+  }
+  node.Abnormal {
+    color: #d33682;
+    border-color: #d33682;
+    text-color-internal: #FFFFFF;
+  }
+  node.VICTIM {
+    color: #d33682;
+    border-color: #d33682;
+    text-color-internal: #FFFFFF;
+  }
+  node.PERPETRATOR {
+    color: #dc322f;
+    border-color: #dc322f;
+    text-color-internal: #FFFFFF;
+  }
+  relationship {
+    color: #A5ABB6;
+    shaft-width: 1px;
+    font-size: 8px;
+    padding: 3px;
+    text-color-external: #000000;
+    text-color-internal: #000000;
+    caption: "";
+  }
+  `.replace(/\n/g, ' ')
+  )
 }

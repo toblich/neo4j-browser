@@ -188,9 +188,6 @@ export function App(props: any) {
               </Render>
               <StyledApp>
                 <StyledBody>
-                  <ErrorBoundary>
-                    <Sidebar openDrawer={drawer} onNavClick={handleNavClick} />
-                  </ErrorBoundary>
                   <StyledMainWrapper>
                     <Main
                       activeConnection={activeConnection}

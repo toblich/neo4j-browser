@@ -43,6 +43,8 @@ type FrameTemplateProps = {
   sidebar?: () => JSX.Element | null
   aside?: JSX.Element | null
   statusbar?: JSX.Element | null
+  alwaysCollapsed?: boolean
+  alwaysFullscreen?: boolean
 }
 
 function FrameTemplate({
@@ -58,12 +60,15 @@ function FrameTemplate({
   runQuery,
   sidebar,
   aside,
-  statusbar
+  statusbar,
+  alwaysCollapsed,
+  alwaysFullscreen
 }: FrameTemplateProps): JSX.Element {
   const [lastHeight, setLastHeight] = useState(10)
   const frameContentElementRef = useRef<any>(null)
+  const [hasNodes, setHasNodes] = useState(false)
 
-  const {
+  let {
     isFullscreen,
     isCollapsed,
     isPinned,
@@ -71,6 +76,11 @@ function FrameTemplate({
     toggleCollapse,
     togglePin
   } = useSizeToggles()
+
+  const wasFullscreen = isFullscreen
+
+  isFullscreen = isFullscreen || alwaysFullscreen || false
+  isCollapsed = isCollapsed || alwaysCollapsed || false
 
   useEffect(() => {
     if (!frameContentElementRef.current?.clientHeight) return

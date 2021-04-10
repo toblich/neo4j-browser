@@ -82,6 +82,7 @@ export class ConnectionFrame extends Component<any, State> {
             </StyledConnectionBodyContainer>
           </>
         }
+        alwaysCollapsed
       />
     )
   }
