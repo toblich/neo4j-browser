@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { isBuffer } from 'lodash'
 import React, { useRef, useState, useEffect } from 'react'
 import { Frame } from 'shared/modules/stream/streamDuck'
 import FrameTitlebar from './FrameTitlebar'
@@ -45,6 +46,7 @@ type FrameTemplateProps = {
   statusbar?: JSX.Element | null
   alwaysCollapsed?: boolean
   alwaysFullscreen?: boolean
+  hasContent?: boolean
 }
 
 function FrameTemplate({
@@ -62,11 +64,13 @@ function FrameTemplate({
   aside,
   statusbar,
   alwaysCollapsed,
-  alwaysFullscreen
+  alwaysFullscreen,
+  hasContent
 }: FrameTemplateProps): JSX.Element {
   const [lastHeight, setLastHeight] = useState(10)
   const frameContentElementRef = useRef<any>(null)
   const [hasNodes, setHasNodes] = useState(false)
+  const [hadContent, setHasContent] = useState(false)
 
   let {
     isFullscreen,
@@ -77,9 +81,14 @@ function FrameTemplate({
     togglePin
   } = useSizeToggles()
 
-  const wasFullscreen = isFullscreen
+  useEffect(() => {
+    if (hasContent && !hadContent) {
+      toggleFullScreen()
+      setHasContent(true)
+    }
+  }, [hasContent, hadContent, toggleFullScreen, setHasContent])
 
-  isFullscreen = isFullscreen || alwaysFullscreen || false
+  const willBeFullscreen = isFullscreen || alwaysFullscreen || false
   isCollapsed = isCollapsed || alwaysCollapsed || false
 
   useEffect(() => {
@@ -97,7 +106,7 @@ function FrameTemplate({
   if (className) {
     classNames.push(className)
   }
-  if (isFullscreen) {
+  if (willBeFullscreen) {
     classNames.push('is-fullscreen')
   }
 
@@ -105,12 +114,12 @@ function FrameTemplate({
     <StyledFrame
       className={classNames.join(' ')}
       data-testid="frame"
-      fullscreen={isFullscreen}
+      fullscreen={willBeFullscreen}
     >
       {header && (
         <FrameTitlebar
           frame={header}
-          fullscreen={isFullscreen}
+          fullscreen={willBeFullscreen}
           fullscreenToggle={toggleFullScreen}
           collapse={isCollapsed}
           collapseToggle={toggleCollapse}
@@ -123,12 +132,12 @@ function FrameTemplate({
         />
       )}
 
-      <StyledFrameBody fullscreen={isFullscreen} collapsed={isCollapsed}>
+      <StyledFrameBody fullscreen={willBeFullscreen} collapsed={isCollapsed}>
         {sidebar && sidebar()}
         {aside && <StyledFrameAside>{aside}</StyledFrameAside>}
         <StyledFrameMainSection>
           <StyledFrameContents
-            fullscreen={isFullscreen}
+            fullscreen={willBeFullscreen}
             ref={frameContentElementRef}
             data-testid="frameContents"
           >
@@ -139,7 +148,7 @@ function FrameTemplate({
 
       {statusbar && (
         <StyledFrameStatusbar
-          fullscreen={isFullscreen}
+          fullscreen={willBeFullscreen}
           data-testid="frameStatusbar"
         >
           {statusbar}

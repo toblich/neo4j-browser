@@ -100,7 +100,7 @@ export class ConnectionForm extends Component<any, ConnectionFormState> {
     }
 
     this.connect(() => {
-      this.props.executeCommand('MATCH (X) return X', 'EDITOR')
+      this.props.executeCommand('MATCH (X:Component) return X', 'EDITOR')
     })
   }
 

@@ -449,6 +449,10 @@ export class CypherFrame extends Component<CypherFrameProps, CypherFrameState> {
       ) : (
         this.getFrameContents(request, result, query)
       )
+
+    const hasContent =
+      requestStatus !== REQUEST_STATUS_PENDING && !isCancelStatus(requestStatus)
+
     const statusBar =
       this.state.openView !== viewTypes.VISUALIZATION &&
       requestStatus !== 'error'
@@ -463,6 +467,7 @@ export class CypherFrame extends Component<CypherFrameProps, CypherFrameState> {
         alwaysFullscreen
         contents={frameContents}
         statusbar={statusBar}
+        hasContent={hasContent}
         numRecords={result && 'records' in result ? result.records.length : 0}
         getRecords={this.getRecords}
         onResize={this.onResize}

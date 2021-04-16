@@ -583,7 +583,7 @@ node.* {
   }
 node {
     diameter: 50px;
-    color: #000000;
+    color: silver;
     border-color: #000000;
     border-width: 2px;
     text-color-internal: #000000;
@@ -631,7 +631,6 @@ node {
     padding: 3px;
     text-color-external: #000000;
     text-color-internal: #000000;
-    caption: "";
   }
   `.replace(/\n/g, ' ')
   )
