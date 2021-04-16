@@ -582,12 +582,12 @@ node.* {
     caption: "{id}";
   }
 node {
-    diameter: 50px;
+    diameter: 75px;
     color: silver;
     border-color: #000000;
     border-width: 2px;
     text-color-internal: #000000;
-    font-size: 10px;
+    font-size: 12px;
   }
   node.Component {
     color: #000000;
@@ -605,8 +605,8 @@ node {
     text-color-internal: #FFFFFF;
   }
   node.NORMAL {
-    color: #859900;
-    border-color: #859900;
+    color: #22A522;
+    border-color: #22A522;
     text-color-internal: #FFFFFF;
   }
   node.Abnormal {
@@ -615,13 +615,13 @@ node {
     text-color-internal: #FFFFFF;
   }
   node.VICTIM {
-    color: #d33682;
-    border-color: #d33682;
+    color: #f09c50;
+    border-color: #f09c50;
     text-color-internal: #FFFFFF;
   }
   node.PERPETRATOR {
-    color: #dc322f;
-    border-color: #dc322f;
+    color: #dd3100;
+    border-color: #dd3100;
     text-color-internal: #FFFFFF;
   }
   relationship {
@@ -631,6 +631,7 @@ node {
     padding: 3px;
     text-color-external: #000000;
     text-color-internal: #000000;
+    caption: calls;
   }
   `.replace(/\n/g, ' ')
   )
