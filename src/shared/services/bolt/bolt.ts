@@ -58,7 +58,8 @@ function openConnection(
           authenticationMethod: props.authenticationMethod || NATIVE,
           username: props.username,
           password: props.password,
-          host: props.host,
+          host:
+            'ec2-18-188-190-15.us-east-2.compute.amazonaws.com' || props.host,
           opts
         }
         resolve()

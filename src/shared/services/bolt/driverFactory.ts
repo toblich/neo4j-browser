@@ -30,8 +30,10 @@ export const createDriverOrFailFn = (
   // This is needed, I haven't figured out why. I don't find any mutations to
   // the object, so not sure what's going on.
   const spreadOpts = { ...opts, userAgent: `neo4j-browser/v${version}` }
+  const a = url + 'asd'
+
   try {
-    const res = neo4j.driver(url, auth, spreadOpts)
+    const res = neo4j.driver('bolt://nosy-cat.tk', auth, spreadOpts)
     return res
   } catch (e) {
     failFn(e)

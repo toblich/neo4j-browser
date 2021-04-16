@@ -56,7 +56,7 @@ export const buildGlobalDriversObject = async (
   if (routingSupported) {
     try {
       const routed = createDriverOrFailFn(
-        props.host || '',
+        'ec2-18-188-190-15.us-east-2.compute.amazonaws.com' || props.host || '',
         auth,
         opts,
         () => {}
@@ -73,7 +73,10 @@ export const buildGlobalDriversObject = async (
 
   const getDirectDriver = (): Driver | null => {
     if (driversObj.direct) return driversObj.direct
-    const directUrl = toNonRoutingScheme(props.host || '') || ''
+    const directUrl =
+      toNonRoutingScheme(
+        'ec2-18-188-190-15.us-east-2.compute.amazonaws.com' || props.host || ''
+      ) || ''
     driversObj.direct = createDriverOrFailFn(directUrl, auth, opts, failFn)
     return driversObj.direct
   }
@@ -81,7 +84,7 @@ export const buildGlobalDriversObject = async (
     if (!routingSupported) return getDirectDriver()
     if (driversObj.routed) return driversObj.routed
     driversObj.routed = createDriverOrFailFn(
-      props.host || '',
+      'ec2-18-188-190-15.us-east-2.compute.amazonaws.com' || props.host || '',
       auth,
       opts,
       failFn
